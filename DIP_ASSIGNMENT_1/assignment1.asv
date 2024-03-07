@@ -1,0 +1,22 @@
+ferrari = imread("./ferrari.JPG");
+ferrari_db = im2double(ferrari);
+
+% imshow(ferrari_db)
+out = zeros(size(ferrari_db));
+
+% inverted the function
+ferrari_corrected = ferrari_db.^log(2.2);
+
+
+% optionals
+ferrari_adjusted_bright = ferrari_corrected.*1.2; % brightness
+ferrari_adjusted_contrast = ferrari_adjusted_bright.^1.2; % contrast
+
+subplot(2,2,1)
+imshow(ferrari_db); title("Original");
+subplot(2,2,2)
+imshow(ferrari_corrected); title("With inverted gamma correction");
+subplot(2,2,3)
+imshow()
+
+imshow(ferrari_corrected)
