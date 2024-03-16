@@ -4,7 +4,6 @@ imshow(wb_pic);
 
 % select sample pixel
 [x, y, rgb] = impixel(wb_pic);
-% [d,c] = ginput(wb_pic);
 
 % equalize the rgb values
 r_new = (rgb(1) + rgb(2) + rgb(3)) / 3;
