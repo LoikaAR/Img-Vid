@@ -6,14 +6,12 @@ imshow(wb_pic);
 [x, y, rgb] = impixel(wb_pic);
 
 % equalize the rgb values
-r_new = (rgb(1) + rgb(2) + rgb(3)) / 3;
-g_new = (rgb(1) + rgb(2) + rgb(3)) / 3;
-b_new = (rgb(1) + rgb(2) + rgb(3)) / 3;
+rgb_new = (rgb(1) + rgb(2) + rgb(3)) / 3;
 
 % find alpha
-alpha_R = r_new/(rgb(1));
-alpha_G = g_new/(rgb(2));
-alpha_B = b_new/(rgb(3));
+alpha_R = rgb_new/(rgb(1));
+alpha_G = rgb_new/(rgb(2));
+alpha_B = rgb_new/(rgb(3));
 
 % process every pixel's corresponding channels
 wb_pic(:,:,1) = wb_pic(:,:,1)*alpha_R;

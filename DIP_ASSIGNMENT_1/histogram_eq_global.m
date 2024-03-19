@@ -1,16 +1,17 @@
 function [eq] = histogram_eq_global(img, flag)
-%     img = imread(image_path);
-%     img = rgb2hsv(img);
+    % img should already be in hsv format
+    % img = rgb2hsv(img);
     
+    % compute the histogram 
     [h, ~] = imhist(img(:,:,3));
 
-    % cumulative density
+    % get cumulative density
     cdf = cumsum(h);
     
-    % normalizing
+    % normalize
     cdf = rescale(cdf, 0, 1);
     
-    % applying to image 
+    % apply to image 
     eq = cdf(round(img(:,:,3)*255+1));
     img(:,:,3) = eq;
     

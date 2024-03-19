@@ -11,13 +11,11 @@ avg_red = mean(red_channel, "all");
 avg_green = mean(green_channel, "all");
 avg_blue = mean(blue_channel, "all");
 
-r_new = (avg_red + avg_blue + avg_green) / 3;
-g_new = (avg_red + avg_blue + avg_green) / 3;
-b_new = (avg_red + avg_blue + avg_green) / 3;
+rgb_new = (avg_red + avg_blue + avg_green) / 3;
 
-alpha_red = r_new / avg_red;
-alpha_green = g_new / avg_green;
-alpha_blue = b_new / avg_blue;
+alpha_red = rgb_new / avg_red;
+alpha_green = rgb_new / avg_green;
+alpha_blue = rgb_new / avg_blue;
 
 wb_img(:,:,1) = wb_img(:,:,1)*alpha_red;
 wb_img(:,:,2) = wb_img(:,:,2)*alpha_green;

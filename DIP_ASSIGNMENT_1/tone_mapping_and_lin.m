@@ -1,9 +1,6 @@
 ferrari = imread("./ferrari.JPG");
 ferrari_db = im2double(ferrari);
 
-% imshow(ferrari_db)
-out = zeros(size(ferrari_db));
-
 % inverted the function
 ferrari_corrected = ferrari_db.^2.2;
 
