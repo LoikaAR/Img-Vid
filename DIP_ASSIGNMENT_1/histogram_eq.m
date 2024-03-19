@@ -1,37 +1,32 @@
-% plot the frequency of each intensity of an image
-img = imread("ferrari.JPG");
-img = im2uint8(img);
+image_path = "ferrari.JPG";
+img = imread(image_path);
+img = rgb2hsv(img);
 
-red = img(:,:,1);
-red = reshape(red,1,[]);
-unique_reds = unique(red);
-red = sort(red);
-    
-green = img(:,:,2);
-green = reshape(green,1,[]);
-unique_greens = unique(green);
-green = sort(green);
+subplot(1,2,1);
+imshow(hsv2rgb(img)); title("Original")
 
-blue = img(:,:,3);
-blue = reshape(blue,1,[]);
-unique_blues = unique(blue);
-blue = sort(blue);
+% [freq_reds, freq_greens, freq_blues] = histogram(image_path);
+[h, ~] = imhist(img(:,:,3));
 
-ecdf_red = zeros(1, length(unique_reds));
-ecdf_green = zeros(1, length(unique_greens));
-ecdf_blue = zeros(1, length(unique_blues));
+% figure();
+% plot(h);
 
-for i = 1:length(unique_reds)
-    ecdf_red(i) = sum(red <= unique_reds(i))/length(unique_reds);
-    ecdf_green(i) = sum(green <= unique_greens(i))/length(unique_reds);
-    ecdf_blue(i) = sum(blue <= unique_blues(i))/length(unique_reds);
-end
+% cumulative density
+cdf = cumsum(h);
 
-ecdf_red = normalize(ecdf_red);
-ecdf_green = normalize(ecdf_green);
-ecdf_blue = normalize(ecdf_blue);
+% normalizing
+cdf = rescale(cdf, 0, 1);
 
-for i = 1:length(unique_reds)
-    
+% applying to image 
+eq = cdf(round(img(:,:,3)*255+1));
 
-img(:,:,1) = img(:,:,1)
+img(:,:,3) = eq;
+
+% h_eq = imhist(eq);
+% figure();
+% plot(h_eq);
+
+subplot(1,2,2);
+imshow(hsv2rgb(img)); title("Global Histogram Equalization");
+
+% plot(vec_L, eq_red, '--r', vec_L, eq_green, '--g', vec_L, eq_blue, '--b');
