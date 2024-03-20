@@ -1,8 +1,8 @@
 function [freq_reds, freq_greens, freq_blues] = histogram(image_path)
-    % plot the frequency of each intensity of an image
     img = imread(image_path);
     img = im2uint8(img);
     
+    % process the channels - reshape into vectors and get all unique values
     red = img(:,:,1);
     red = reshape(red,1,[]);
     unique_reds = unique(red);
@@ -18,7 +18,7 @@ function [freq_reds, freq_greens, freq_blues] = histogram(image_path)
     unique_blues = unique(blue);
     blue = sort(blue);
 
-    L = unique(red);
+    L = 1:256;
     freq_reds = zeros(size(unique_reds));
     freq_greens= zeros(size(unique_greens));
     freq_blues = zeros(size(unique_blues));
@@ -29,6 +29,7 @@ function [freq_reds, freq_greens, freq_blues] = histogram(image_path)
         freq_greens(i) = sum(unique_greens(i) == green);
         freq_blues(i) = sum(unique_blues(i) == blue);
     end
-
-    plot(L, freq_reds, 'r', L, freq_greens, 'g', L, freq_blues, 'b');
+    
+    % plot
+    plot(L, freq_reds, 'r', L, freq_greens, 'g', L, freq_blues, 'b'); title("Histogram for " + image_path);
 end

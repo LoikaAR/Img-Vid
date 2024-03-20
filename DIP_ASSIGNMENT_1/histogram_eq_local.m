@@ -1,7 +1,8 @@
 img = imread("ferrari.JPG");
 img = rgb2hsv(img);
 out = img;
-[img_rows, img_cols] = size(img);
+
+% define the number of chunks and window size
 dims = size(img);
 chunks = 5;
 window_size = floor(dims(1:2)/chunks);
@@ -24,4 +25,4 @@ for i = 0:chunks-1
 end
 
 out = hsv2rgb(out);
-imshow(out);
+imshow(out); title("Local Equalization with " + chunks + " windows");

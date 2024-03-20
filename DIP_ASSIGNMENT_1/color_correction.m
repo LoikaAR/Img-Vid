@@ -1,6 +1,7 @@
 wb_pic = imread("white_balance_input.jpg");
 wb_pic = im2double(wb_pic);
-imshow(wb_pic);
+wb_pic = wb_pic.^2.2;
+imshow(wb_pic); title("Original");
 
 % select sample pixel
 [x, y, rgb] = impixel(wb_pic);
@@ -18,5 +19,5 @@ wb_pic(:,:,1) = wb_pic(:,:,1)*alpha_R;
 wb_pic(:,:,2) = wb_pic(:,:,2)*alpha_G;
 wb_pic(:,:,3) = wb_pic(:,:,3)*alpha_B;
 
-% do I need 
-imshow(wb_pic);
+% show result
+imshow(wb_pic); title("Pixel-Based Correction");

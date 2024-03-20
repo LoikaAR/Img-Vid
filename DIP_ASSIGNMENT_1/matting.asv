@@ -4,6 +4,7 @@ background = imread("background.jpg");
 background = im2double(background);
 [cat_rows, cat_cols, ~] = size(cat_img);
 [bkg_rows, bkg_cols,~] = size(background);
+cat_img = imresize(cat_img, [bkg_rows, bkg_cols]);
 
 x = 1:256;
 h_red = imhist(cat_img(:,:,1));
@@ -27,19 +28,18 @@ green_lvl = cat_green.*(cat_green - cat_red).*(cat_green - cat_blue);
 threshold = 0.3*mean(green_lvl(green_lvl > 0));
 filter = green_lvl > threshold;
 
-% overlay stuff
-masked_out = cat_img - filter;
-masked_out = imresize(masked_out, [bkg_rows, bkg_cols]);
-size_mask = size(masked_out);
+% replace pixels
+cat_red(filter) = bkg_red(filter);
+cat_green(filter) = bkg_green(filter);
+cat_blue(filter) = bkg_blue(filter);
 
-% out = background + masked_out;
-out = imfuse
-imshow(out);
+all_black = zeros(size(cat_img, 1), size(cat_img, 2), 'uint8');
+red = cat(3, cat_red, all_black, all_black);
+green = cat(3, all_black, cat_green, all_black);
+blue = cat(3, all_black, all_black, cat_blue);
 
-% position = [1,1];
-% background(position(2):position(2)+size(masked_out, 1)-1, position(1):position(1)+size(masked_out, 2)-1, :) = masked_out;
-% imshow(background);
+subplot()
+recombined = cat(3, cat_red, cat_green, cat_blue);
+imshow(recombined);
 
-% cat_red(green_lvl) = bkg_red(green_lvl);
-% cat_green(green_lvl) = bkg_green(green_lvl);
-% cat_blue(green_lvl) = bkg_blue(green_lvl);
+
