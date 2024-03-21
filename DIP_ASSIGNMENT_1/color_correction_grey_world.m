@@ -1,8 +1,7 @@
 % get the average RGB value, make it grey
 wb_img_original = imread("white_balance_input.jpg");
 wb_img = im2double(wb_img_original);
-wb_pic = im2double(wb_pic);
-wb_pic = wb_pic.^2.2;
+wb_img = wb_img.^2.2;
 
 % get individual channels
 red_channel = wb_img(:,:,1);
