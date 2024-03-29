@@ -1,0 +1,13 @@
+close all;
+kernel = anisotropic_gaussian_kernel(-45, 10, 10);
+img = imread("graz.png");
+img = im2double(img);
+
+hw = floor([size(img,1) size(img,2)]/2);
+
+img = padarray(img,hw,'replicate','both');
+
+res = conv2(img,kernel);
+
+montage({img, res});
+
