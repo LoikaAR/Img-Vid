@@ -17,7 +17,8 @@ for i = 0:chunks-1
         chunk = out(chunk_start(1):chunk_end(1), chunk_start(2):chunk_end(2),:);
         
         % equalize it
-        eq_chunk = histogram_eq_global(chunk, false);
+%         eq_chunk = histogram_eq_global(chunk, false);
+        eq_chunk = chunk * kernel;
         
         % update the chunk in the output image
         out(chunk_start(1):chunk_end(1), chunk_start(2):chunk_end(2),3) = eq_chunk;

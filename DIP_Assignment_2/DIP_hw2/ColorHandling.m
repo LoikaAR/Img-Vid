@@ -1,4 +1,4 @@
-I = imread('your_image.png');
+I = imread('graz.png');
 I_ycbcr = rgb2ycbcr(double(I)./255);   %this is a transformation that you will learn about in later lectures, dont worry about it now
 I_gray = double(rgb2gray(I))./255;     %Just use this gray-scale image for any further processing
 
