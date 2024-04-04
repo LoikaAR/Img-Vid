@@ -1,0 +1,19 @@
+img = imread("delicate_arch.jpg");
+img = im2double(img);
+
+d_of_s = 6;
+std_dev = 5;
+
+img_one_gauss= imbilatfilt(img, d_of_s, std_dev);
+
+subplot(1,2,1);
+imshow(img_one_gauss); title("1x Bilateral Gaussian Filter, DoS = " ...
+    + d_of_s + ", Standard Deviation = " + std_dev);
+gauss_filters = 
+for i = 1:
+
+img_many_gauss= imbilatfilt(img, d_of_s, std_dev, FilterSize=3);
+
+subplot(1,2,2);
+imshow(img_many_filter); title("10x Bilateral Gaussian Filter, DoS = " ...
+    + d_of_s + ", Standard Deviation = " + std_dev);
