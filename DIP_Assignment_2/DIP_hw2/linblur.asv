@@ -5,6 +5,10 @@ std_y = 10;
 kernel = anisotropic_gaussian_kernel(theta, std_x, std_y);
 img = imread("graz.png");
 img = im2double(img);
+
+% pad the image
+hw = floor([size(kernel,1) size(kernel,2)]/2);
+img = padarray(img, hw, 'replicate', 'both');
 res = conv2(img, kernel, 'same');
 
 figure

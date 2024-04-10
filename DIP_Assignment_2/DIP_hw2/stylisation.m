@@ -1,22 +1,32 @@
-% make contours at edges
-% smooth the image within the contours
-
-img = imread("delicate_arch.jpg");
+img_path = "delicate_arch.jpg";
+img = imread(img_path);
 I_ycbcr = rgb2ycbcr(double(img)./255);
 I_gray = double(rgb2gray(img))./255;
+img = im2double(img);
 
-se = strel("square", 2);
-img_eroded = imerode(I_gray, se);
+% find edges
+img_edges = edge(I_gray, "canny", 0.27);
 
-img_contours = I_gray - img_eroded;
+% dilate edges
+se = strel("square", 3);
+img_edges = imdilate(img_edges, se);
 
-img_enhanced = I_gray .* img_contours;
-img_combined = I_gray - img_enhanced;
-% img_soft = imbilatfilt(img_combined, 0.5, 10);
+% iteratively apply bilateral filter
+dos = 0.01;
+sigma = 7;
+img_soft = I_gray;
+for i = 1:10
+    img_soft = imbilatfilt(img_soft, dos, sigma);
+end
 
-img_soft = imbilatfilt(I_gray, 0.5, 2);
-result = img_soft - img_contours;
+result = img_soft - img_edges;
 
 J_ycbcr = cat(3,result,I_ycbcr(:,:,2),I_ycbcr(:,:,3)); 
 J_rgb = ycbcr2rgb(J_ycbcr);
-imshow(J_rgb);
+tiledlayout(2,1);
+
+nexttile;
+imshow(img); title("Original");
+
+nexttile;
+imshow(J_rgb); title("Stylized");

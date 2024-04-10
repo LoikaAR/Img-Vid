@@ -10,15 +10,7 @@ function [kernel] = anisotropic_gaussian_kernel(theta, std_x, std_y)
     x = x.*cos(theta) - y.*sin(theta);
     y = x.*sin(theta) + y.*cos(theta);
     kernel = -(((x.^2)./2*std_x^2) + ((y.^2)./2*std_y^2));
-    
-%     kernel = abs(kernel);
-%     kernel = 1 - kernel;
 
     s = sum(kernel, "all");
     kernel = kernel./s;
-
-    sum(kernel)
-   
-%     kernel
-    imshow(kernel);
 end
