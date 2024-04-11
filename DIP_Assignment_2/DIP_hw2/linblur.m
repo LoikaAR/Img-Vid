@@ -1,5 +1,5 @@
 close all;
-theta = -45;
+theta = 45;
 std_x = 10;
 std_y = 10;
 kernel = anisotropic_gaussian_kernel(theta, std_x, std_y);
