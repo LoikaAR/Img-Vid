@@ -1,0 +1,13 @@
+close all;
+
+img = ones(1024, 1024);
+
+
+% img = padarray(img, [10, 10], 0, 'both');
+
+% Spatial domain
+sigma = 2;
+I_blur = imgaussfilt(img, sigma);
+
+
+imshow(I_blur);
