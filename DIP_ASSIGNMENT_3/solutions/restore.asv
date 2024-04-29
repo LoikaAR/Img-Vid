@@ -29,8 +29,7 @@ end
 % apply filter to the frequency domain
 res_f = img_f .* fftshift(mask);
 
-% show result of filter on frequency domain
-% imshow(abs(fftshift(res_f)/500));
+imshow()
 
 % apply inverse fft
 out = abs(ifft2(res_f));
