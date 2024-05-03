@@ -13,36 +13,35 @@ img(center-R:center, center:center+R) = 0;
 img(center:center+R, center-R:center) = 0;
 
 % Spatial domain
-% img = padarray(img, [10, 10], 0, 'both');
+img = padarray(img, [10, 10], 0, 'both');
 
-sigma = 50;
+sigma = 10;
 I_blur = imgaussfilt(img, sigma);
-
-% imshow(I_blur);
 
 % Frequency domain
 % compute FT
 I_ft = fft2(img);
 
 % visualize shifted FT
-vI=abs(fftshift(I_ft));
-
-% imshow(vI/100);
+% vI=abs(fftshift(I_ft));
+% imshow(vI/100); title("fourier");
 
 % compute gaussian (low-pass) filter
-[X,Y]= meshgrid(-512:511,-512:511);
+[X,Y]= meshgrid(-522:521,-522:521);
 D = sqrt(X.^2 + Y.^2);
-D = D/max(D(:));
-term = 1 / 2*pi*sigma;
-D = exp(-D.^2 / 2*sigma^2);
-D = D * term;
+D = D/max(D(:)); 
+sigma_freq = (1 / (2*pi*sigma));
+D = exp(-D.^2/2/sigma_freq^2);
 D = D/max(D(:));
 
-% imshow(D)
+% imshow(D); title("kernel");
 
 I_ft_filtered= I_ft .* fftshift(D);
+
+% imshow(abs(I_ft_filtered)); title("filtered fourier");
 I_out = ifft2(I_ft_filtered);
 
+% visualize
 figure; 
 tiledlayout(1,2);
 
@@ -51,9 +50,5 @@ imshow(I_blur); title("Spatial domain Gaussian blur, \sigma=" + sigma);
 
 nexttile;
 imshow(abs(I_out)); title("Frequency domain Gaussian blur, \sigma=" + sigma);
-
-
-
-
 
 
