@@ -11,7 +11,7 @@ blueC= img_lin(:,:,3);
 data = double([redC(:), blueC(:), greenC(:)]);
 
 % perform kmeans on 7 clusters
-[idx, centroids] = kmeans(data, 7, Replicates=5);
+[idx, centroids] = kmeans(data, 7, Replicates=1);
 
 % make a cell array of classes
 classes = cell(1,7);
@@ -48,12 +48,10 @@ for i = 1:length(res)
     avg_green = mean(res{i}(:,:,2), "all", "omitnan");
     avg_blue = mean(res{i}(:,:,3), "all", "omitnan");
 
-
     wdw = img_lin;
     wdw(:,:,1) = centroids(i,1);
-    wdw(:,:,2) = centroids(i,2);
-    wdw(:,:,3) = centroids(i,3);
-    
+    wdw(:,:,2) = centroids(i,3); % this bothers me a lot
+    wdw(:,:,3) = centroids(i,2);
     avg_list{i} = wdw;
 end
 
