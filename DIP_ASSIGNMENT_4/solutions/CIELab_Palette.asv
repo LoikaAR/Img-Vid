@@ -1,8 +1,8 @@
 close all;
 
-img =  im2double(imread("../queen.jpg"));
+img = imread("../queen.jpg");
+img_lin = rgb2lab(img);
 
-img_lin = img.^2.2;
 [height, width, ~] = size(img);
 
 % prepare data
@@ -12,7 +12,7 @@ blueC= img_lin(:,:,3);
 data = double([redC(:), blueC(:), greenC(:)]);
 
 % perform kmeans on 7 clusters
-[idx, centroids] = kmeans(data, 7, Replicates=2);
+[idx, centroids] = kmeans(data, 7, Replicates=1);
 
 % make a cell array of classes
 classes = cell(1,7);
@@ -39,7 +39,7 @@ for i = 1:length(classes)
     out_blue(out_blue == 0) = NaN;
 
     out = cat(3, out_red, out_green, out_blue);
-    out = rgb2hsv(out);
+    out = lab2rgb(out) + repmat([0, 128, 128], size(img_lin, 1), size(img_lin, 2));
     
     res{i} = out;
 end
