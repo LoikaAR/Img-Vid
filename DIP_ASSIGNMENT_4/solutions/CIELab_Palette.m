@@ -32,8 +32,15 @@ for i = 1:length(classes)
     out_red = cur .* img_lin(:,:,1);
     out_green= cur .* img_lin(:,:,2);
     out_blue= cur .* img_lin(:,:,3);
-    pic_out = cat(3, out_red, out_green, out_blue); 
-    pic_out = lab2rgb(pic_out);
+    pic_col = cat(3, out_red, out_green, out_blue); 
+    pic_col = lab2rgb(pic_col);
+
+    % split and modify hue, sat, value
+    [H, S, V] = rgb2hsv(pic_col);
+    % edit here ...
+
+    pic_out = cat(3, H, S, V);
+    pic_out = hsv2rgb(pic_out);
 
     pics{i} = pic_out;
     res{i} = pic_out;
