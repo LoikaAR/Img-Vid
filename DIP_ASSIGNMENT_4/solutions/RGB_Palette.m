@@ -1,4 +1,4 @@
-function [avg_list] = RGB_Palette(im_path, nClusters, showFlag)
+function [pics, avg_list, classes] = RGB_Palette(im_path, nClusters, showFlag)
     close all;
     
     img =  im2double(imread(im_path));
@@ -17,12 +17,12 @@ function [avg_list] = RGB_Palette(im_path, nClusters, showFlag)
     
     % make a cell array of classes
     classes = cell(1,7);
-    for i =1:7
+    for i =1:nClusters
         class = reshape(idx==i,height,width);
         classes{i} = class;
     end
     
-    % show pixels of img_lin where class1,2,3,... == 1
+    % show colored pixels of img_lin where class1,2,3,... == 1
     pics = cell(1,nClusters);
     res = cell(1,nClusters);
     for i = 1:length(classes)
@@ -62,5 +62,4 @@ function [avg_list] = RGB_Palette(im_path, nClusters, showFlag)
     if showFlag
         montage(collated,Size=[2 NaN],BorderSize=[2,2],BackgroundColor=[1,1,1]);
     end
-
 end

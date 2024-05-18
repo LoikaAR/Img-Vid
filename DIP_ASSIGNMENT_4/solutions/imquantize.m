@@ -3,26 +3,35 @@ impath = "../queen.jpg";
 img = imread(impath);
 img = im2double(img);
 
-% avg_list = RGB_Palette(impath, 32, false);
+[height, width, ~] = size(img);
 
-redC = img(:,:,1);
-greenC = img(:,:,2);
-blueC = img(:,:,3);
+nClusters = 32;
 
-[counts_red, binAllocs_red] = imhist(redC, 32);
-[counts_green, binAllocs_green] = imhist(greenC, 32);
-[counts_blue, binAllocs_blue] = imhist(blueC, 32);
+[pics, avg_list, classes] = CIELab_Palette(impath, nClusters, false);
 
-plot(binAllocs_green, counts_green);
+out = zeros(height, width);
 
-test = img;
+for i = 1:nClusters
+    layer = classes{i};
 
-test(:,:,1) = binAllocs_red(32);
-test(:,:,2) = binAllocs_green(32);
-test(:,:,3) = binAllocs_blue(32);
+    color = avg_list{i};
+    redC = color(:,:,1);
+    greenC = color(:,:,2);
+    blueC = color(:,:,3);
+    
+    mask = ones(height, width,3);
 
-mat = ones(100,100);
+    out_red = layer .* redC;
+    out_green= layer .* blueC;
+    out_blue= layer .* greenC;
+    layer_col = cat(3, out_red, out_green, out_blue);
+    
+    out = out + layer_col;
+end
 
-% out = test.*mat;
 
-imshow(test);
+% imshow(out);
+
+gray = 0.2989 * out(:,:,1) + 0.5870 * out(:,:,2) + 0.1140 * out(:,:,3);
+
+montage({out, gray});
