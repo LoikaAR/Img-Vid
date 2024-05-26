@@ -5,9 +5,9 @@ img = im2double(img);
 
 [height, width, ~] = size(img);
 
-nClusters = 32;
+nClusters = 64;
 
-[pics, avg_list, classes] = CIELab_Palette(impath, nClusters, false);
+[pics, avg_list, classes, idx] = CIELab_Palette(impath, nClusters, false);
 
 out = zeros(height, width);
 
@@ -22,16 +22,13 @@ for i = 1:nClusters
     mask = ones(height, width,3);
 
     out_red = layer .* redC;
-    out_green= layer .* blueC;
-    out_blue= layer .* greenC;
+    out_green= layer .* greenC;
+    out_blue= layer .* blueC;
     layer_col = cat(3, out_red, out_green, out_blue);
     
     out = out + layer_col;
 end
 
-
-% imshow(out);
-
-gray = 0.2989 * out(:,:,1) + 0.5870 * out(:,:,2) + 0.1140 * out(:,:,3);
+grey = 0.2989 * out(:,:,1) + 0.5870 * out(:,:,2) + 0.1140 * out(:,:,3);
 
 montage({out, gray});

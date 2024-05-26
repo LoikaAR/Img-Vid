@@ -1,8 +1,12 @@
 close all;
 
-img = imread("../queen.jpg");
-img_lin = rgb2lab(img);
+im_path = "../queen.jpg";
+nClusters = 7;
+showFlag = false;
 
+img =  im2double(imread(im_path));
+% img =  im2double(imread("../color.jpg"));
+img_lin = img.^2.2;
 [height, width, ~] = size(img);
 
 % prepare data
@@ -12,40 +16,41 @@ blueC= img_lin(:,:,3);
 data = double([redC(:), blueC(:), greenC(:)]);
 
 % perform kmeans on 7 clusters
-[idx, centroids] = kmeans(data, 7, Replicates=1);
+[idx, centroids] = kmeans(data, nClusters, Replicates=2);
 
 % make a cell array of classes
 classes = cell(1,7);
-for i =1:7
+for i =1:nClusters
     class = reshape(idx==i,height,width);
     classes{i} = class;
 end
 
-% show pixels of img_lin where class1,2,3,... == 1
-pics = cell(1,7);
-res = cell(1,7);
+% show colored pixels of img_lin where class1,2,3,... == 1
+pics = cell(1,nClusters);
+res = cell(1,nClusters);
 for i = 1:length(classes)
     cur = classes{i};
     
+    % reconstruct the colors
     out_red = cur .* img_lin(:,:,1);
     out_green= cur .* img_lin(:,:,2);
     out_blue= cur .* img_lin(:,:,3);
-    pic_out = cat(3, out_red, out_green, out_blue);
-
-    pics{i} = pic_out;
+    pic_col = cat(3, out_red, out_green, out_blue);
     
-    out_red(out_red == 0) = NaN;
-    out_green(out_green == 0) = NaN;
-    out_blue(out_blue == 0) = NaN;
+    % split and modify hue, sat, value
+    [H, S, V] = rgb2hsv(pic_col);
+    % edit here ...
+
+    pic_out = cat(3, H, S, V);
+    pic_out = hsv2rgb(pic_out);
+    pics{i} = pic_out;
 
     out = cat(3, out_red, out_green, out_blue);
-    out = lab2rgb(out) + repmat([0, 128, 128], size(img_lin, 1), size(img_lin, 2));
-    
     res{i} = out;
 end
 
 % get the average values
-avg_list = cell(1,7);
+avg_list = cell(1,nClusters);
 for i = 1:length(res)
     wdw = img_lin;
     wdw(:,:,1) = centroids(i,1);
@@ -56,4 +61,7 @@ for i = 1:length(res)
 end
 
 collated = [pics, avg_list];
-montage(collated,Size=[2 NaN],BorderSize=[2,2],BackgroundColor=[1,1,1]);
+
+if showFlag
+    montage(collated,Size=[2 NaN],BorderSize=[2,2],BackgroundColor=[1,1,1]);
+end

@@ -16,7 +16,7 @@ function [pics, avg_list, classes] = RGB_Palette(im_path, nClusters, showFlag)
     [idx, centroids] = kmeans(data, nClusters, Replicates=2);
     
     % make a cell array of classes
-    classes = cell(1,7);
+    classes = cell(1,nClusters);
     for i =1:nClusters
         class = reshape(idx==i,height,width);
         classes{i} = class;

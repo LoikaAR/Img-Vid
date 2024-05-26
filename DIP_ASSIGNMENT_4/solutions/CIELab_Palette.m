@@ -1,4 +1,4 @@
-function [pics, avg_list, classes] = CIELab_Palette(im_path, nClusters, showFlag)
+function [pics, avg_list, classes, idx] = CIELab_Palette(im_path, nClusters, showFlag)
 
     close all;
     
