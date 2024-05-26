@@ -1,4 +1,4 @@
-function [] = laplacianPyramid(impath, nLevels)
+function [lapPyramid] = laplacianPyramid(impath, nLevels)
     close all;
 
     img = im2double(imread(impath));
@@ -22,14 +22,5 @@ function [] = laplacianPyramid(impath, nLevels)
         out = cur - prev;
         lapPyramid{i} = out;
     end
-    lapPyramid{5} = gaussPyramid{5};
-
-    figure,
-    imshow(lapPyramid{1});
-    figure,
-    imshow(lapPyramid{2});
-    figure,
-    imshow(lapPyramid{3});
-    figure,
-    imshow(lapPyramid{4});
+    lapPyramid{nLevels+1} = gaussPyramid{nLevels+1};
 end
