@@ -3,6 +3,7 @@ function [lapPyramid] = laplacianPyramid(impath, nLevels)
 
     img = im2double(imread(impath));
 
+    % make gaussian pyramid
     gaussPyramid = cell(1,nLevels+1);
     gaussPyramid{1} = img;
     for i = 2:nLevels+1
@@ -11,8 +12,8 @@ function [lapPyramid] = laplacianPyramid(impath, nLevels)
         gaussPyramid{i} = cur_lvl_sub;
     end
 
+    % use gaussian pyr to make laplacian pyr
     lapPyramid = cell(1,nLevels+1);
-
     for i = 1:nLevels
         cur = gaussPyramid{i};
         prev = gaussPyramid{i+1};

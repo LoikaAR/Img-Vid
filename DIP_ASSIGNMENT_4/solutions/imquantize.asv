@@ -7,7 +7,7 @@ img = im2double(img);
 
 nClusters = 32;
 
-% [pics, avg_list, classes] = CIELab_Palette(impath, nClusters, false, false);
+% [pics, avg_list, classes] = CIELab_Palette(impath, nClusters, false);
 [pics, avg_list, classes] = RGB_Palette(impath, nClusters, false);
 
 out = zeros(height, width);
